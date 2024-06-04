@@ -1,0 +1,58 @@
+snake_game / item, board, snake hpp 참조.
+main / snake_game 참조
+
+board에서 점수 받아와야함.
+
+main : snake_game의 redraw() 호출 ( 새로고침을 위해 )
+snake_game : redraw() = board 객체의 refresh()함수 사용(보드 새로 고침)
+board : refresh() - wrefresh로 보드들 새로고침.
+
+
+
+스코어 보드 설명.
+1. snake_game에서 appleScore, bombScore 변수, 이 둘을 반환해주는 getAppleScore(), getBombScore() 추가.
+2. 다음스테이지 넘어가는 void SnakeGame::initialize(int stageNum)에 appleScore=0, bombScore=0; 추가.
+3. void SnakeGame::handleNext(SnakePiece next)에 사과나 폭탄을 먹었을 때 동작이 서술됨.
+여기에  appleScore++, bombScore++ 추가.
+4. board에 스코어보드를 생성. 헤더에 WINDOW *scoreBoard, 생성자에 newwin으로 생성.void Board::initialize(int num)에 스코어보드 초기값, wclear 넣기.
+Board::refresh()에 테두리를 추가해주는 box함수 넣어주기.
+5. board에 스코어 보드 값을 갱신하는 recording이라는 함수 추가.
+void Board::recording(int size, int appleS, int bombS, int gateS)
+6. 보드를 새로고침하는 snake_game의 void SnakeGame::redraw() 에다가 board.recording(...변수들...) 추가. snake_game은 board 객체를
+생성해 사용중이므로 board.recording() 사용이 가능.
+7. board의 refresh()에 wrefresh 추가. 이걸 써줘야 창이 나온다
+
+스코어 보드 보고서 내용
+
+미션보드 미구현
+1. recording에서 미션 클리어하면 그 후로는 출력 안바뀌게
+ex size 25 찍으면 다시 size 25 아래로 내려가도 미션클리어 무효가 나서는 안됨.
+2. 미션 다 성공하면 다음스테이지 넘어가게.
+
+=> 특정 미션 클리어에 대한 bool 변수 추가. recording에.
+=> 모든 미션 클리어에 대한 bool 변수 추가? 어디에? snake_game에 ?
+
+동진이형이랑 깃 하고 추가된거
+snakegame에 미션관련 bool들. snakegame initialize에서 false로 초기화
+snakegame에 wrapScore 추가
+이름 warp로 통일.
+snakegame playingStage에 미션bool들 ture 바꾸는 if문 추가.
+snakegame playingStage에 미션클리어시 다음스테이지 넘어가는 if문추가.
+snakegame, redraw 안 recording에 wrapScore 매개변수 추가.
+wrapScore SnakeGame::initialize에 0으로.
+recording 함수에 매개변수로 bool들 추가. recording 함수 수정.
+board의 map [5][21][39] 로 추가. 더미맵.
+main gameclear 부분 수정.
+스네이크게임 생성자에서도 warpScore 0으로 초기화.
+맵 수정. +로 바꿈.
+
+바꾼 곳 :: 
+item 일부 :: 더미 함수, 변수 삭제
+board, snake_game :: 함수, 변수 추가, 삭제, 조정.
+main :: clear 부분 조정.
+
+
+
+마무리다듬기
+주석 고치기
+함수명 고치기
